@@ -1,17 +1,17 @@
 # Milestone 1 — EDA + environment
-# Versions are pinned after the first successful install for reproducibility.
-# (See README for how to regenerate: pip freeze.)
+# Pinned to the versions verified working on Python 3.12.10 / Windows.
+# Regenerate a full lockfile with:  pip freeze > requirements.lock.txt
 
 # Core data / EDA
-pandas
-numpy
-scikit-learn
-scipy
-matplotlib
-seaborn
+pandas==2.3.3
+numpy==2.5.1
+scikit-learn==1.9.0
+scipy==1.18.0
+matplotlib==3.11.0
+seaborn==0.13.2
 
-# Synthetic data generator (used from Milestone 2 onward)
-ctgan
+# Synthetic data generator (used from Milestone 2 onward; pulls torch CPU build)
+ctgan==0.12.1
 
 # Dataset download
-kaggle
+kaggle==2.2.3

@@ -5,6 +5,9 @@ venv/
 # Data (large, license-gated — never commit)
 data/
 
+# Trained models (binary artifacts; the metadata JSON next to them IS committed)
+models/*.pkl
+
 # Python
 __pycache__/
 *.py[cod]
