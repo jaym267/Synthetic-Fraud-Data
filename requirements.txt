@@ -1,0 +1,17 @@
+# Milestone 1 — EDA + environment
+# Versions are pinned after the first successful install for reproducibility.
+# (See README for how to regenerate: pip freeze.)
+
+# Core data / EDA
+pandas
+numpy
+scikit-learn
+scipy
+matplotlib
+seaborn
+
+# Synthetic data generator (used from Milestone 2 onward)
+ctgan
+
+# Dataset download
+kaggle

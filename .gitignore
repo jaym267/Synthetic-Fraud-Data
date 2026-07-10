@@ -1,0 +1,23 @@
+# Virtual environment
+venv/
+.venv/
+
+# Data (large, license-gated — never commit)
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Generated figures/outputs (keep the code that makes them, not the artifacts)
+reports/figures/*.png
+
+# Kaggle credentials — must never be committed
+kaggle.json
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
