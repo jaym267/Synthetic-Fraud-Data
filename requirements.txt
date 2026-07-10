@@ -9,6 +9,7 @@ scikit-learn==1.9.0
 scipy==1.18.0
 matplotlib==3.11.0
 seaborn==0.13.2
+tabulate==0.10.0  # pandas .to_markdown() in report generation
 
 # Synthetic data generator (used from Milestone 2 onward; pulls torch CPU build)
 ctgan==0.12.1
