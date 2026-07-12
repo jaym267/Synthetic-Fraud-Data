@@ -22,16 +22,18 @@ instead of assuming them.
 `mlg-ulb/creditcardfraud`): ~284,807 European card transactions over 2 days, 492 frauds (~0.172%).
 Features `V1`–`V28` are PCA-transformed (anonymized); `Time` and `Amount` are raw.
 
-## Roadmap
+## Results at a glance
 
-| Milestone | Goal |
-|-----------|------|
-| **1** ✅ | Environment setup + exploratory data analysis (EDA) |
-| 2 | Train a CTGAN on the fraud-only rows to generate synthetic fraud |
-| 3 | Fidelity checks — real vs. synthetic distributions & correlations, via statistical tests |
-| 4 | Utility test — classifier on real vs. real+synthetic; precision/recall on the rare class |
-| 5 | Membership inference attack against the generator — does it leak training rows? |
-| 6 | Honest technical write-up, including where synthetic data did *not* help |
+**➡ Full write-up: [reports/TECHNICAL_REPORT.md](reports/TECHNICAL_REPORT.md)**
+
+| Milestone | Question | Verdict |
+|-----------|----------|---------|
+| **1** ✅ | What does the real data look like? | 0.173% fraud; signal concentrated in V17/V14/V12 |
+| **2** ✅ | Train CTGAN on fraud-only rows | 378 training rows, 95 held out *before* training for M5 |
+| **3** ✅ | Is synthetic data statistically faithful? | **No** — 23/29 columns fail KS vs a real-vs-real noise floor; correlations halved |
+| **4** ✅ | Does it help a fraud classifier? | **No** — dose-dependent AP decline; loses to naive oversampling |
+| **5** ✅ | Does it leak training records? | **No** — membership attack AUC 0.51 (coin flip), zero memorized rows |
+| **6** ✅ | Honest write-up | One mechanism, three results: *you cannot leak what you never learned* |
 
 ## Setup
 
