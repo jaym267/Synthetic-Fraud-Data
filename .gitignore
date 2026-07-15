@@ -13,8 +13,8 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 
-# Generated figures/outputs (keep the code that makes them, not the artifacts)
-reports/figures/*.png
+# Generated figures ARE committed so the reports render on GitHub
+# (regenerate with the src/ scripts; they are small PNGs).
 
 # Kaggle credentials — must never be committed
 kaggle.json
