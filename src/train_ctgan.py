@@ -80,7 +80,6 @@ def prepare_fraud_data() -> tuple[pd.DataFrame, pd.DataFrame]:
 
     # Seeded shuffle, then split. We keep the ORIGINAL dataframe indices —
     # they are the stable IDs that let Milestone 5 map rows back to the raw csv.
-    rng = np.random.default_rng(SEED)
     shuffled = fraud.sample(frac=1.0, random_state=SEED)
     n_holdout = int(round(len(shuffled) * HOLDOUT_FRACTION))
     holdout = shuffled.iloc[:n_holdout]

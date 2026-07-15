@@ -30,7 +30,7 @@ Features `V1`–`V28` are PCA-transformed (anonymized); `Time` and `Amount` are 
 |-----------|----------|---------|
 | **1** ✅ | What does the real data look like? | 0.173% fraud; signal concentrated in V17/V14/V12 |
 | **2** ✅ | Train CTGAN on fraud-only rows | 378 training rows, 95 held out *before* training for M5 |
-| **3** ✅ | Is synthetic data statistically faithful? | **No** — 23/29 columns fail KS vs a real-vs-real noise floor; correlations halved |
+| **3** ✅ | Is synthetic data statistically faithful? | **No** — 28/29 columns fail KS vs a sample-size-scaled real-vs-real noise floor; correlations halved |
 | **4** ✅ | Does it help a fraud classifier? | **No** — dose-dependent AP decline; loses to naive oversampling |
 | **5** ✅ | Does it leak training records? | **No** — membership attack AUC 0.51 (coin flip), zero memorized rows |
 | **6** ✅ | Honest write-up | One mechanism, three results: *you cannot leak what you never learned* |

@@ -82,6 +82,15 @@ def ks_table(members: pd.DataFrame, holdout: pd.DataFrame,
         })
     table = pd.DataFrame(rows).set_index("column")
 
+    # The floor is measured between samples of (n_members, n_holdout), but the
+    # judged comparison runs at (n_members, n_synthetic). Under the KS null the
+    # statistic scales like sqrt(1/n + 1/m), so the measured floor must be
+    # rescaled to the synthetic pairing's sample sizes; otherwise the floor is
+    # ~2x too generous to the synthetic data (it was, before this fix).
+    scale = np.sqrt((1 / len(members) + 1 / len(synthetic))
+                    / (1 / len(members) + 1 / len(holdout)))
+    table["ks_floor_scaled"] = table["ks_floor"] * scale
+
     # Holm correction across the 29 synthetic-vs-real tests (supporting signal).
     order = np.argsort(table["p_synth"].values)
     m = len(table)
@@ -93,7 +102,7 @@ def ks_table(members: pd.DataFrame, holdout: pd.DataFrame,
         adjusted[idx] = running_max
     table["p_holm"] = adjusted
 
-    floor = table["ks_floor"].median()  # robust summary of sampling noise
+    floor = table["ks_floor_scaled"].median()  # robust summary of sampling noise
     def verdict(ks: float) -> str:
         if ks <= floor:
             return "PASS"
@@ -210,8 +219,9 @@ Each of the 29 columns is tested with a two-sample Kolmogorov–Smirnov test (sy
 members), judged primarily by the KS **statistic** (an effect size: max CDF gap, 0–1) because at
 these sample sizes p-values flag even trivial differences (Holm-corrected p-values included as a
 supporting column). To make the statistics interpretable, a **noise floor** is computed by running
-the same KS test between two samples of *genuinely real* fraud — members vs holdout. Median floor:
-**{floor:.3f}**. Columns at or below the floor are indistinguishable from real ("PASS");
+the same KS test between two samples of *genuinely real* fraud — members vs holdout — then rescaled
+to the synthetic comparison's sample sizes (KS nulls scale like sqrt(1/n + 1/m); without rescaling
+the floor would be ~2x too generous to the synthetic data). Median scaled floor: **{floor:.3f}**. Columns at or below the floor are indistinguishable from real ("PASS");
 within {BORDERLINE_MULTIPLIER:.0f}× the floor "borderline"; beyond that "FAIL". Joint structure is
 assessed by comparing full Pearson correlation matrices.
 

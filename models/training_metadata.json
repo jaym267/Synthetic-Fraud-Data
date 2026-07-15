@@ -41,8 +41,8 @@
     "V28",
     "Amount"
   ],
-  "training_minutes": 3.57,
+  "training_minutes": 3.22,
   "ctgan_version": "0.12.1",
   "torch_version": "2.13.0+cpu",
-  "trained_utc": "2026-07-10T03:04:37Z"
+  "trained_utc": "2026-07-12T05:00:30Z"
 }

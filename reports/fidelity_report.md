@@ -9,48 +9,49 @@ Each of the 29 columns is tested with a two-sample Kolmogorov–Smirnov test (sy
 members), judged primarily by the KS **statistic** (an effect size: max CDF gap, 0–1) because at
 these sample sizes p-values flag even trivial differences (Holm-corrected p-values included as a
 supporting column). To make the statistics interpretable, a **noise floor** is computed by running
-the same KS test between two samples of *genuinely real* fraud — members vs holdout. Median floor:
-**0.075**. Columns at or below the floor are indistinguishable from real ("PASS");
+the same KS test between two samples of *genuinely real* fraud — members vs holdout — then rescaled
+to the synthetic comparison's sample sizes (KS nulls scale like sqrt(1/n + 1/m); without rescaling
+the floor would be ~2x too generous to the synthetic data). Median scaled floor: **0.037**. Columns at or below the floor are indistinguishable from real ("PASS");
 within 2× the floor "borderline"; beyond that "FAIL". Joint structure is
 assessed by comparing full Pearson correlation matrices.
 
 ## Headline result
 
-**1 PASS / 5 borderline / 23 FAIL** out of 29 columns.
+**0 PASS / 1 borderline / 28 FAIL** out of 29 columns.
 
 ## Per-column KS results (sorted worst-first)
 
-| column   |   ks_synth |   p_synth |   ks_floor |   p_holm | verdict    |
-|:---------|-----------:|----------:|-----------:|---------:|:-----------|
-| V23      |     0.4731 |    0      |     0.0982 |   0      | FAIL       |
-| V17      |     0.4616 |    0      |     0.0568 |   0      | FAIL       |
-| V8       |     0.4404 |    0      |     0.0778 |   0      | FAIL       |
-| V7       |     0.4153 |    0      |     0.0717 |   0      | FAIL       |
-| V27      |     0.4083 |    0      |     0.0553 |   0      | FAIL       |
-| Amount   |     0.3945 |    0      |     0.0662 |   0      | FAIL       |
-| V3       |     0.3791 |    0      |     0.064  |   0      | FAIL       |
-| V15      |     0.3696 |    0      |     0.0945 |   0      | FAIL       |
-| V6       |     0.3644 |    0      |     0.1373 |   0      | FAIL       |
-| V16      |     0.3576 |    0      |     0.0561 |   0      | FAIL       |
-| V9       |     0.3556 |    0      |     0.0672 |   0      | FAIL       |
-| V28      |     0.336  |    0      |     0.1122 |   0      | FAIL       |
-| V22      |     0.3186 |    0      |     0.076  |   0      | FAIL       |
-| V10      |     0.3029 |    0      |     0.0828 |   0      | FAIL       |
-| V4       |     0.2795 |    0      |     0.0806 |   0      | FAIL       |
-| V20      |     0.2732 |    0      |     0.1016 |   0      | FAIL       |
-| V18      |     0.2628 |    0      |     0.0511 |   0      | FAIL       |
-| V13      |     0.2487 |    0      |     0.104  |   0      | FAIL       |
-| V1       |     0.2311 |    0      |     0.0578 |   0      | FAIL       |
-| V2       |     0.1855 |    0      |     0.0984 |   0      | FAIL       |
-| V25      |     0.1798 |    0      |     0.0724 |   0      | FAIL       |
-| V19      |     0.1742 |    0      |     0.075  |   0      | FAIL       |
-| V21      |     0.1555 |    0      |     0.0737 |   0      | FAIL       |
-| V5       |     0.1361 |    0      |     0.0526 |   0.0001 | borderline |
-| V11      |     0.1254 |    0.0001 |     0.0984 |   0.0004 | borderline |
-| V24      |     0.1163 |    0.0003 |     0.0723 |   0.0013 | borderline |
-| V14      |     0.1137 |    0.0005 |     0.1048 |   0.0015 | borderline |
-| V26      |     0.0982 |    0.004  |     0.0798 |   0.008  | borderline |
-| V12      |     0.0685 |    0.0961 |     0.0639 |   0.0961 | PASS       |
+| column   |   ks_synth |   p_synth |   ks_floor |   ks_floor_scaled |   p_holm | verdict    |
+|:---------|-----------:|----------:|-----------:|------------------:|---------:|:-----------|
+| V23      |     0.4731 |    0      |     0.0982 |            0.048  |   0      | FAIL       |
+| V17      |     0.4616 |    0      |     0.0568 |            0.0277 |   0      | FAIL       |
+| V8       |     0.4404 |    0      |     0.0778 |            0.038  |   0      | FAIL       |
+| V7       |     0.4153 |    0      |     0.0717 |            0.035  |   0      | FAIL       |
+| V27      |     0.4083 |    0      |     0.0553 |            0.027  |   0      | FAIL       |
+| Amount   |     0.3945 |    0      |     0.0662 |            0.0323 |   0      | FAIL       |
+| V3       |     0.3791 |    0      |     0.064  |            0.0313 |   0      | FAIL       |
+| V15      |     0.3696 |    0      |     0.0945 |            0.0462 |   0      | FAIL       |
+| V6       |     0.3644 |    0      |     0.1373 |            0.0671 |   0      | FAIL       |
+| V16      |     0.3576 |    0      |     0.0561 |            0.0274 |   0      | FAIL       |
+| V9       |     0.3556 |    0      |     0.0672 |            0.0329 |   0      | FAIL       |
+| V28      |     0.336  |    0      |     0.1122 |            0.0548 |   0      | FAIL       |
+| V22      |     0.3186 |    0      |     0.076  |            0.0371 |   0      | FAIL       |
+| V10      |     0.3029 |    0      |     0.0828 |            0.0405 |   0      | FAIL       |
+| V4       |     0.2795 |    0      |     0.0806 |            0.0394 |   0      | FAIL       |
+| V20      |     0.2732 |    0      |     0.1016 |            0.0496 |   0      | FAIL       |
+| V18      |     0.2628 |    0      |     0.0511 |            0.025  |   0      | FAIL       |
+| V13      |     0.2487 |    0      |     0.104  |            0.0508 |   0      | FAIL       |
+| V1       |     0.2311 |    0      |     0.0578 |            0.0283 |   0      | FAIL       |
+| V2       |     0.1855 |    0      |     0.0984 |            0.0481 |   0      | FAIL       |
+| V25      |     0.1798 |    0      |     0.0724 |            0.0354 |   0      | FAIL       |
+| V19      |     0.1742 |    0      |     0.075  |            0.0367 |   0      | FAIL       |
+| V21      |     0.1555 |    0      |     0.0737 |            0.036  |   0      | FAIL       |
+| V5       |     0.1361 |    0      |     0.0526 |            0.0257 |   0.0001 | FAIL       |
+| V11      |     0.1254 |    0.0001 |     0.0984 |            0.0481 |   0.0004 | FAIL       |
+| V24      |     0.1163 |    0.0003 |     0.0723 |            0.0353 |   0.0013 | FAIL       |
+| V14      |     0.1137 |    0.0005 |     0.1048 |            0.0512 |   0.0015 | FAIL       |
+| V26      |     0.0982 |    0.004  |     0.0798 |            0.039  |   0.008  | FAIL       |
+| V12      |     0.0685 |    0.0961 |     0.0639 |            0.0312 |   0.0961 | borderline |
 
 ## Correlation structure
 

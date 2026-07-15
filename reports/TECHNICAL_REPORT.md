@@ -15,7 +15,7 @@ demos never ask, each with a pre-registered measurement design:
 
 | Question | Method | Result |
 |---|---|---|
-| Is the synthetic data statistically faithful? | Per-column KS tests vs a real-vs-real noise floor; correlation-matrix comparison | **No.** 23/29 columns fail; strongest correlations halved |
+| Is the synthetic data statistically faithful? | Per-column KS tests vs a real-vs-real noise floor; correlation-matrix comparison | **No.** 28/29 columns fail (1 borderline, 0 pass); strongest correlations halved |
 | Does it improve a fraud classifier? | Leakage-safe RandomForest experiment, dose-response + oversampling control, 3 seeds | **No.** Dose-dependent *degradation*; loses to photocopying rows |
 | Does it leak the training records? | Membership inference (DCR attack), members vs holdout ground truth | **No.** Attack AUC 0.51 ≈ coin flip; zero memorized rows |
 
@@ -55,18 +55,22 @@ transactions, **492 frauds = 0.173%**, features `V1–V28` PCA-anonymized plus `
 Generator: CTGAN (`ctgan` 0.12.1), 500 epochs, batch 40, seed 42, 3.6 min CPU; 2,000 synthetic
 fraud rows sampled. Training config in `models/training_metadata.json`.
 
-## 3. Fidelity: failed 23 of 29 columns
+## 3. Fidelity: failed 28 of 29 columns
 
 **Design.** Two-sample Kolmogorov–Smirnov per column, judged by the KS *statistic* as an effect
 size — at n=2000 vs 378, p-values flag even trivial gaps (Holm-corrected p-values reported as
 support). To make the statistic interpretable I computed a **noise floor**: the same KS between the
-two *real* samples (members vs holdout), i.e. what pure sampling noise looks like. Median floor:
-**0.075**. At/below floor = indistinguishable from real; above 2× floor = fail.
+two *real* samples (members vs holdout), i.e. what pure sampling noise looks like — then rescaled it
+to the synthetic comparison's sample sizes, since KS null values scale like √(1/n + 1/m). Median
+scaled floor: **0.037**. At/below floor = indistinguishable from real; above 2× floor = fail.
+*(An earlier version of this analysis skipped the rescaling, used a floor of 0.075 — about 2× too
+generous to the generator — and reported 23/29 FAIL. Caught in code review; the corrected
+calibration makes the fidelity verdict strictly worse.)*
 
 **Results** ([fidelity_report.md](fidelity_report.md), figures 05–07):
 
-- **23 FAIL / 5 borderline / 1 PASS** (only V12 passes).
-- **V17 — the dataset's strongest fraud signal — is the second-worst column** (KS 0.46, ~8× floor).
+- **28 FAIL / 1 borderline / 0 PASS** — nothing passes; V12, the best column, is merely borderline.
+- **V17 — the dataset's strongest fraud signal — is the second-worst column** (KS 0.46, ~12× the floor).
   Real fraud sits at V17 ≈ −6.4; the synthetic rows sit at +1.0, where *legitimate* transactions
   live. `Amount` (long right tail, a known GAN weakness flagged in the EDA) fails at KS 0.39.
 - **Correlation structure collapsed:** V17~V18 real r = 0.974 → synthetic 0.478; V7~V10 0.880 →
@@ -74,7 +78,7 @@ two *real* samples (members vs holdout), i.e. what pure sampling noise looks lik
   not the whole.
 
 A methodological aside: in the post-training sanity check V14's *mean* looked fine (−7.95 vs −6.88
-real) — the KS test still rated it borderline. Matching a mean is not matching a distribution;
+real) — the KS test still fails it. Matching a mean is not matching a distribution;
 this is why the pipeline never trusts summary statistics or eyeballed histograms.
 
 ## 4. Utility: synthetic data lost to copy-paste
@@ -122,7 +126,7 @@ doesn't have the training set. Attack quality = ROC AUC; 0.5 is a coin flip.
 
 - Attack AUC **0.5096** (nearest-neighbor score) and **0.5047** (mean of 5 nearest);
   Mann-Whitney p = 0.39 / 0.44. Member and non-member distance distributions overlap almost
-  entirely (medians 3.43 vs 3.41).
+  entirely (medians 3.43 vs 3.40).
 - **Memorization scan: zero near-copies.** The closest synthetic row to *any* training row sits
   2.16 standardized units away — nothing resembling a copied record.
 

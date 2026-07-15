@@ -115,8 +115,8 @@ def run_condition(name: str, X_tr: pd.DataFrame, y_tr: np.ndarray,
         pred = (proba >= 0.5).astype(int)
         per_seed.append({
             "precision": precision_score(y_test, pred, zero_division=0),
-            "recall": recall_score(y_test, pred),
-            "f1": f1_score(y_test, pred),
+            "recall": recall_score(y_test, pred, zero_division=0),
+            "f1": f1_score(y_test, pred, zero_division=0),
             "ap": average_precision_score(y_test, proba),
         })
         if s == 0:  # keep one PR curve per condition for the figure
@@ -215,7 +215,6 @@ def main() -> None:
 
     conditions: list[tuple[str, pd.DataFrame | None]] = [("real_only", None)]
     conditions += [(f"real+{n}synth", synthetic.iloc[:n]) for n in SYNTH_DOSES]
-    rng = np.random.default_rng(SEED)
     dup_rows = fraud_train.sample(OVERSAMPLE_DOSE, replace=True, random_state=SEED)
     conditions.append((f"oversample+{OVERSAMPLE_DOSE}", dup_rows))
 
