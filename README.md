@@ -73,6 +73,30 @@ each ~95 additional *real* fraud rows buy ~+0.007 AP. Synthetic rows — even st
 near-perfect ones — are interpolations of information the model already has; they don't substitute
 for new real data. **Fidelity metrics, including a clean 29/29 sweep, do not predict utility.**
 
+## The privacy endgame — LiRA finds the leak, DP prices the proof
+
+**➡ [reports/lira_attack_report.md](reports/lira_attack_report.md) · [reports/dp_copula_report.md](reports/dp_copula_report.md) · [reports/BLOG_POST.md](reports/BLOG_POST.md)**
+
+The strong attack (LiRA-style, 24 shadow generators, per-example calibration — completing the work
+honestly abandoned in `shadow_model_attack.py`):
+
+| target | DCR AUC (weak attack) | LiRA AUC (strong attack) | p (one-sided) |
+|---|---|---|---|
+| CTGAN B3 | 0.503 | 0.532 | 0.165 |
+| Gaussian copula | 0.498 | 0.537 | 0.136 |
+| **TVAE** | 0.544 | **0.589** | **0.004** |
+
+**TVAE — the generator that learned the most real joint structure — leaks membership, and the
+significance only shows under the strong attack.** The project's mechanism now has both halves:
+you cannot leak what you never learned (CTGAN), and *you do start leaking once you do learn*
+(TVAE). Every earlier "no leak" claim measured with only the weak attack was undersold by
+~0.03–0.04 AUC — exactly why one attack was never enough.
+
+The provable answer: a differentially private copula (`src/dp_copula.py`, two Gaussian-mechanism
+queries, honest sensitivity accounting) prices the guarantee — ε=100 keeps most fidelity, ε=10
+costs real correlation structure, ε=1 destroys the data. The privacy-fidelity tradeoff that never
+engaged empirically across five CTGANs appears as a smooth dial once privacy is provable.
+
 ## Setup
 
 ```powershell

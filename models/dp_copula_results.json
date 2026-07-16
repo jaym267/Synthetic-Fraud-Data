@@ -1,0 +1,42 @@
+[
+  {
+    "name": "GaussCop_inf",
+    "epsilon": Infinity,
+    "pass": 1,
+    "borderline": 11,
+    "fail": 17,
+    "median_ks": 0.10011111111111115,
+    "mean_abs_dcorr": 0.044763143110871234,
+    "attack_auc": 0.494040657198552
+  },
+  {
+    "name": "DP_eps1",
+    "epsilon": 1.0,
+    "pass": 0,
+    "borderline": 1,
+    "fail": 28,
+    "median_ks": 0.45473544973544977,
+    "mean_abs_dcorr": 0.3513965907226755,
+    "attack_auc": 0.48649401280980226
+  },
+  {
+    "name": "DP_eps10",
+    "epsilon": 10.0,
+    "pass": 1,
+    "borderline": 5,
+    "fail": 23,
+    "median_ks": 0.11991534391534386,
+    "mean_abs_dcorr": 0.2321402855820254,
+    "attack_auc": 0.5382344750765804
+  },
+  {
+    "name": "DP_eps100",
+    "epsilon": 100.0,
+    "pass": 0,
+    "borderline": 12,
+    "fail": 17,
+    "median_ks": 0.09458201058201055,
+    "mean_abs_dcorr": 0.06957404907821903,
+    "attack_auc": 0.5273461431356168
+  }
+]

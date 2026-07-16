@@ -24,3 +24,6 @@ kaggle.json
 Thumbs.db
 .vscode/
 .idea/
+
+# LiRA shadow artifacts are regenerable (seeded) and bulky — keep out of git
+models/lira_shadows/
