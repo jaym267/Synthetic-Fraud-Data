@@ -35,6 +35,19 @@ Features `V1`–`V28` are PCA-transformed (anonymized); `Time` and `Amount` are 
 | **5** ✅ | Does it leak training records? | **No** — membership attack AUC 0.51 (coin flip), zero memorized rows |
 | **6** ✅ | Honest write-up | One mechanism, three results: *you cannot leak what you never learned* |
 
+## Experiment B — does more training close the gap?
+
+**➡ [reports/experiment_b_report.md](reports/experiment_b_report.md)**
+
+Follow-up: swept 4 stronger CTGAN configs (up to 4,000 epochs, doubled network capacity) against
+the unmodified fidelity and privacy tests. Result: fidelity improved modestly then **plateaued**
+(correlation error stuck at ~0.16 regardless of training time or network size), the best config
+still failed utility the same way the original did, and **privacy stayed flat at coin-flip across
+all five generators tested** — the predicted fidelity-privacy tradeoff never engaged within this
+search space. A shadow-model attack (the stronger privacy test) was scoped and started but honestly
+stopped partway when the compute cost stopped being justified by the five-generator DCR consensus
+already in hand — documented as unfinished future work, not a completed result.
+
 ## Setup
 
 ```powershell

@@ -1,0 +1,57 @@
+[
+  {
+    "name": "A_500ep (baseline)",
+    "epochs": 500,
+    "pass": 0,
+    "borderline": 1,
+    "fail": 28,
+    "median_ks": null,
+    "mean_abs_dcorr": 0.211,
+    "attack_auc": 0.5096,
+    "minutes": 3.6
+  },
+  {
+    "name": "B1_2000ep",
+    "epochs": 2000,
+    "pass": 0,
+    "borderline": 1,
+    "fail": 28,
+    "median_ks": 0.16407142857142842,
+    "mean_abs_dcorr": 0.16446703043605373,
+    "attack_auc": 0.48785853522695627,
+    "minutes": NaN
+  },
+  {
+    "name": "B2_2000ep_big",
+    "epochs": 2000,
+    "pass": 0,
+    "borderline": 7,
+    "fail": 22,
+    "median_ks": 0.11672222222222217,
+    "mean_abs_dcorr": 0.16321647450500798,
+    "attack_auc": 0.5113895850737956,
+    "minutes": 22.9
+  },
+  {
+    "name": "B3_4000ep",
+    "epochs": 4000,
+    "pass": 1,
+    "borderline": 4,
+    "fail": 24,
+    "median_ks": 0.11345767195767198,
+    "mean_abs_dcorr": 0.1603785614453931,
+    "attack_auc": 0.5027568922305764,
+    "minutes": 31.2
+  },
+  {
+    "name": "B4_2000ep_batch80",
+    "epochs": 2000,
+    "pass": 0,
+    "borderline": 4,
+    "fail": 25,
+    "median_ks": 0.12289417989417983,
+    "mean_abs_dcorr": 0.1661074704742592,
+    "attack_auc": 0.5048175995544416,
+    "minutes": NaN
+  }
+]
