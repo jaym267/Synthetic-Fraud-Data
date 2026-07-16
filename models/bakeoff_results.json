@@ -1,0 +1,46 @@
+[
+  {
+    "name": "CTGAN_A_500ep",
+    "family": "GAN",
+    "pass": 0,
+    "borderline": 1,
+    "fail": 28,
+    "median_ks": null,
+    "mean_abs_dcorr": 0.211,
+    "attack_auc": 0.5096,
+    "fit_seconds": 216
+  },
+  {
+    "name": "CTGAN_B3_4000ep",
+    "family": "GAN",
+    "pass": 1,
+    "borderline": 4,
+    "fail": 24,
+    "median_ks": 0.1135,
+    "mean_abs_dcorr": 0.1604,
+    "attack_auc": 0.5028,
+    "fit_seconds": 1872
+  },
+  {
+    "name": "GaussianCopula",
+    "family": "copula",
+    "pass": 29,
+    "borderline": 0,
+    "fail": 0,
+    "median_ks": 0.01954761904761909,
+    "mean_abs_dcorr": 0.0902422777021497,
+    "attack_auc": 0.49782790309106095,
+    "fit_seconds": 0.0
+  },
+  {
+    "name": "TVAE_2000ep",
+    "family": "VAE",
+    "pass": 0,
+    "borderline": 4,
+    "fail": 25,
+    "median_ks": 0.09866931216931216,
+    "mean_abs_dcorr": 0.0799451822888384,
+    "attack_auc": 0.5438039543302702,
+    "fit_seconds": 472.4
+  }
+]

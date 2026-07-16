@@ -48,6 +48,31 @@ search space. A shadow-model attack (the stronger privacy test) was scoped and s
 stopped partway when the compute cost stopped being justified by the five-generator DCR consensus
 already in hand — documented as unfinished future work, not a completed result.
 
+## Generator bake-off — the twist ending
+
+**➡ [reports/generator_bakeoff.md](reports/generator_bakeoff.md) · [reports/utility_v2_report.md](reports/utility_v2_report.md)**
+
+Prompted by external review, two more generator families went through the unchanged harness:
+
+| generator | fidelity (of 29) | corr error | attack AUC | fit time |
+|---|---|---|---|---|
+| CTGAN (best of 5 configs) | 1 pass | 0.160 | 0.503 | 31 min |
+| **Gaussian copula (~40 lines)** | **29 pass** | 0.090 | 0.498 | **<1 s** |
+| TVAE | 0 pass | **0.080** | 0.544 | 8 min |
+
+The copula — a closed-form model fitting in under a second — swept the per-column fidelity test
+that 31 minutes of adversarial training couldn't crack (partly by construction: it resamples
+empirical marginals, which is itself evidence that per-column KS is gameable). TVAE learned the
+best *joint* structure and was the only generator whose attack score nudged upward (not
+statistically significant, but the first data point in the predicted fidelity→leakage direction).
+
+The properly-powered utility test (10 seeds, paired deltas, bootstrap CIs, data-ablation arm) then
+delivered the project's deepest finding: **even the 29/29-fidelity copula does not help the
+classifier** (−0.004 to −0.005 AP, 7–8 of 10 seeds below baseline), while the ablation curve shows
+each ~95 additional *real* fraud rows buy ~+0.007 AP. Synthetic rows — even statistically
+near-perfect ones — are interpolations of information the model already has; they don't substitute
+for new real data. **Fidelity metrics, including a clean 29/29 sweep, do not predict utility.**
+
 ## Setup
 
 ```powershell
